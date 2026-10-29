@@ -1,0 +1,56 @@
+ ./uaf_poc
+=================================================================
+==6192==ERROR: AddressSanitizer: heap-use-after-free on address 0x611000000040 at pc 0x560dba8d1477 bp 0x7fffa9ac0cd0 sp 0x7fffa9ac04a0
+READ of size 16 at 0x611000000040 thread T0
+    #0 0x560dba8d1476 in __asan_memcpy (/home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc+0xa0476) (BuildId: 96ee309e2ffd6a3c03abda2d4ec54fe05c91f99c)
+    #1 0x560dba90d4c2 in mread /home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc.c:29:2
+    #2 0x560dba90cfc4 in main /home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc.c:58:2
+    #3 0x736d0cc29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #4 0x736d0cc29e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #5 0x560dba84f304 in _start (/home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc+0x1e304) (BuildId: 96ee309e2ffd6a3c03abda2d4ec54fe05c91f99c)
+
+0x611000000040 is located 0 bytes inside of 256-byte region [0x611000000040,0x611000000140)
+freed by thread T0 here:
+    #0 0x560dba8d1ea2 in free (/home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc+0xa0ea2) (BuildId: 96ee309e2ffd6a3c03abda2d4ec54fe05c91f99c)
+    #1 0x560dba90cfa3 in main /home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc.c:54:2
+    #2 0x736d0cc29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+previously allocated by thread T0 here:
+    #0 0x560dba8d214e in __interceptor_malloc (/home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc+0xa114e) (BuildId: 96ee309e2ffd6a3c03abda2d4ec54fe05c91f99c)
+    #1 0x560dba90cf66 in main /home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc.c:48:17
+    #2 0x736d0cc29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-use-after-free (/home/lloyd/Documents/libxmp-lite-ps2-master/uaf_poc+0xa0476) (BuildId: 96ee309e2ffd6a3c03abda2d4ec54fe05c91f99c) in __asan_memcpy
+Shadow bytes around the buggy address:
+  0x0c227fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0c227fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0c227fff8000: fa fa fa fa fa fa fa fa[fd]fd fd fd fd fd fd fd
+  0x0c227fff8010: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c227fff8020: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
+  0x0c227fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c227fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==6192==ABORTING
+
